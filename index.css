@@ -1,0 +1,58 @@
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.6rem;
+}
+
+.notes-list {
+    position: relative;
+    list-style-type: none;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.note-element {
+    position: relative;
+    width: 20rem;
+    height: 20rem;
+    border: 1px solid black;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 10rem;
+}
+
+.note-container {
+    position: relative;
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    will-change: transform;
+    width: 100%;
+    height: 100%;
+}
+
+.note-front, .note-back {
+    position: absolute;
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.note-front {
+    z-index: 2;
+    background: yellow;
+}
+
+.note-back {
+    background: blue;
+    transform: rotateY(180deg);
+    will-change: transform;
+}
+
+.note-element_highlighted .note-container {
+    transform: rotateY(180deg);
+}
