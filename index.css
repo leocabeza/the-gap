@@ -7,52 +7,119 @@ body {
     position: relative;
     list-style-type: none;
     padding: 0;
-    height: 100vh;
     display: flex;
     flex-wrap: wrap;
 }
 
 .note-element {
-    position: relative;
+    will-change: transform;
+    transition: all 0.8s;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    cursor: pointer;
+    -webkit-perspective: 50rem;
+            perspective: 50rem;
+}
+
+.note-element.collapsed {
+    width: 5rem;
+    height: 5rem;
+    -webkit-animation: rotate-back 0.5s forwards;
+            animation: rotate-back 0.5s forwards;
+}
+
+.note-element.expanded {
+    position: absolute;
+    margin: 0;
+    -webkit-animation: center-and-rotate 0.5s forwards;
+            animation: center-and-rotate 0.5s forwards;
     width: 20rem;
     height: 20rem;
-    border: 1px solid black;
-    margin-right: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 10rem;
 }
 
 .note-container {
     position: relative;
-    transition: 0.6s;
-    transform-style: preserve-3d;
-    will-change: transform;
     width: 100%;
     height: 100%;
 }
 
 .note-front, .note-back {
     position: absolute;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    transition: all 2s;
+    border-radius: 0.5rem;
 }
 
 .note-front {
-    z-index: 2;
     background: yellow;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
 }
 
 .note-back {
     background: blue;
-    transform: rotateY(180deg);
-    will-change: transform;
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
 }
 
-.note-element_highlighted .note-container {
-    transform: rotateY(180deg);
+body.backdrop_active .app {
+  background: rgba(0, 0, 0, 0.80);
+  height: 100vh;
+  overflow: auto;
+}
+
+body.backdrop_active .note-element.collapsed,
+body.backdrop_active .new-note {
+    z-index: -1;
+    pointer-events: none;
+}
+
+@-webkit-keyframes center-and-rotate {
+    to {
+        top:50%;
+        left:50%;
+        margin-right: -50%;
+        -webkit-transform: translate(-50%,-25%) translateZ(0) rotateY(360deg);
+                transform: translate(-50%,-25%) translateZ(0) rotateY(360deg);
+    }
+}
+
+@keyframes center-and-rotate {
+    to {
+        top:50%;
+        left:50%;
+        margin-right: -50%;
+        -webkit-transform: translate(-50%,-25%) translateZ(0) rotateY(360deg);
+                transform: translate(-50%,-25%) translateZ(0) rotateY(360deg);
+    }
+}
+
+@-webkit-keyframes rotate-back {
+  to {
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+  }
+  from {
+    -webkit-transform: rotateY(-360deg);
+            transform: rotateY(-360deg);
+  }
+}
+
+@keyframes rotate-back {
+  to {
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+  }
+  from {
+    -webkit-transform: rotateY(-360deg);
+            transform: rotateY(-360deg);
+  }
 }
